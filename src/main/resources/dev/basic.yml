@@ -1,0 +1,24 @@
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+logging:
+  level:
+    root: WARN
+    org.thymeleaf: WARN
+    org.springframework.web: WARN
+    org.springframework.security: WARN
+    org.springframework.orm.jpa: DEBUG
+    org.hibernate.type.descriptor.sql: DEBUG
+    spring.jpa.properties.hibernate.show_sql: DEBUG
+    spring.jpa.properties.hibernate.format_sql: DEBUG
+    spring.jpa.properties.hibernate.use_sql_comments: DEBUG
+    spring.jpa.properties.hibernate.highlight_sql: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      enabled: true
