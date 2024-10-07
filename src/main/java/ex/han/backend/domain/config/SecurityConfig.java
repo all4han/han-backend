@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @Slf4j
 @EnableWebSecurity
@@ -42,7 +44,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     private final String redirectUrlFailed;
     private final JwtProvider jwtProvider;
     @Value("${front-server.url}")
-    private String frontServerUrl;
+    public String frontServerUrl;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -65,9 +67,11 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+//                .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/api/**").permitAll()
+                                .requestMatchers("/api/test").permitAll()
 //                                .requestMatchers("/").permitAll()
                                 .anyRequest().authenticated()
 //                                .anyRequest().permitAll()
@@ -84,6 +88,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                         .failureHandler(new AuthFailHandler(redirectUrlFailed))
                 )
                 .addFilterBefore(new JWtFilter(jwtProvider, userRepository), UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
